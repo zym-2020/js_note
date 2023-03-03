@@ -26,7 +26,7 @@ function get() {
 
 foo.get();              //2
 get();                  //4
-// foo().get();            //报错
+foo().get();            //报错
 get();                  //4
 new foo.get();          //2
 new foo().get();        //3
