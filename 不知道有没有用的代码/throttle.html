@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>节流</title>
+  </head>
+  <body>
+    <div>
+      <button id="btn">节流按钮</button>
+    </div>
+  </body>
+  <script>
+    const btn = document.getElementById("btn");
+    const throttle = (fn, wait) => {
+      let date = Date.now();
+      return () => {
+        let now = Date.now();
+        if (now - date > wait) {
+          fn();
+          date = now;
+        }
+      };
+    };
+
+    btn.addEventListener(
+      "click",
+      throttle(() => {
+        console.log("节流成功");
+      }, 1000)
+    );
+  </script>
+</html>
+
+
+<!-- 
+    频繁触发的时候，比如滚动或连续点击，在指定的间隔时间内，只会执行一次
+    应用场景：resize、scroll等
+ -->

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>防抖</title>
+  </head>
+  <body>
+    <div>
+      <button id="btn">防抖按钮</button>
+    </div>
+  </body>
+  <script>
+    const btn = document.getElementById("btn");
+
+    function debounce() {
+      console.log(1);
+      let timeout = null; //此处的timeout用了闭包的特性
+      return () => {
+        // 每一次点击判断有延迟执行的任务就停止
+        if (timeout !== null) clearTimeout(timeout);
+        // 否则就开启延迟任务
+        timeout = setTimeout(() => {
+          console.log("防抖");
+        }, 1000);
+      };
+    }
+
+    btn.addEventListener("click", debounce());
+  </script>
+</html>
+
+<!-- 
+    连续点击的情况下不会执行，只在最后一下点击过指定的秒数后才会执行
+    应用场景：点击按钮，输入框模糊查询，词语联想等
+ -->
