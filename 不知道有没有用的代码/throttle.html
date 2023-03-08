@@ -13,26 +13,23 @@
   </body>
   <script>
     const btn = document.getElementById("btn");
-    const throttle = (fn, wait) => {
+    const throttle = (fn, wait, ...arg) => {
       let date = Date.now();
-      return () => {
+      return function () {
         let now = Date.now();
         if (now - date > wait) {
-          fn();
+          fn.apply(this, arg);
           date = now;
         }
       };
     };
+    const f = (name) => {
+      console.log(name, "节流成功");
+    };
 
-    btn.addEventListener(
-      "click",
-      throttle(() => {
-        console.log("节流成功");
-      }, 1000)
-    );
+    btn.addEventListener("click", throttle(f, 1000, '张三'));
   </script>
 </html>
-
 
 <!-- 
     频繁触发的时候，比如滚动或连续点击，在指定的间隔时间内，只会执行一次
