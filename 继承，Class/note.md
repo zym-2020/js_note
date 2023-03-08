@@ -17,3 +17,4 @@ ES5通过原型链的形式实现继承，见demo1
 **ES5继承和ES6继承的区别**
 - ES5的继承实质上是先创建子类的实例对象，然后再将父类的方法添加到this上（Parent.call(this)）
 - ES6的继承有所不同，实质上是先创建父类的实例对象this，然后再用子类的构造函数修改this。因为子类没有自己的this对象，所以必须先调用父类的super()方法，否则新建实例报错
+- ES6 class子类可以直接通过__proto__寻址到父类，而ES5的__proto__指向Function.prototype（见demo3）
