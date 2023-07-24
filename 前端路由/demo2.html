@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>history路由</title>
+  </head>
+  <body>
+    <div>
+      <ul>
+        <li><a href="/page1">page1</a></li>
+        <li><a href="/page2">page2</a></li>
+      </ul>
+      <div id="route-view"></div>
+    </div>
+    <script type="text/javascript">
+      let routeView = null;
+      window.onload = () => {
+        routeView = document.getElementById("route-view");
+        popChange();
+        const aList = document.querySelectorAll("a[href]");
+        aList.forEach((node) => {
+          node.addEventListener("click", (e) => {
+            e.preventDefault();
+            const href = node.getAttribute("href");
+            history.pushState(null, "", href);
+            console.log(history);
+            popChange();
+          });
+        });
+      };
+      const popChange = () => {
+        console.log("location", location);
+        switch (location.pathname) {
+          case "/page1":
+            routeView.innerHTML = "page1";
+            return;
+          case "/page2":
+            routeView.innerHTML = "page2";
+            return;
+          default:
+            routeView.innerHTML = "page1";
+        }
+      };
+      window.addEventListener("popstate", popChange);
+    </script>
+  </body>
+</html>

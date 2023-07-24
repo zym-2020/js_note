@@ -346,3 +346,64 @@ Proxy 一共 支持13 种的拦截,相对Object.defineProperty更加丰富。
 - **construct(target, args)**：拦截 Proxy 实例作为构造函数调用的操作，比如new proxy(...args)。
 
 proxy的使用案例见***demo1***
+
+
+# 虚拟DOM
+vue模板转换成视图的整个过程
+- vue通过编译将template 模板转换成渲染函数(render ) ，执行渲染函数就可以得到一个虚拟节点树
+- 在对 Model 进行操作的时候，会触发对应 Dep 中的 Watcher 对象。Watcher 对象会调用对应的 update 来修改视图。这个过程主要是将新旧虚拟节点进行差异对比，然后根据对比结果进行DOM操作来更新视图
+![Alt text](image-3.png)
+
+概念解释
+- 渲染函数：渲染函数是用来生成Virtual DOM的。Vue推荐使用模板来构建我们的应用界面，在底层实现中Vue会将模板编译成渲染函数，当然我们也可以不写模板，直接写渲染函数，以获得更好的控制。
+- VNode虚拟节点：它可以代表一个真实的 dom 节点。通过 createElement 方法能将 VNode 渲染成 dom 节点。简单地说，vnode可以理解成节点描述对象，它描述了应该怎样去创建真实的DOM节点。
+- patch（也叫做patching算法）：虚拟DOM最核心的部分，它可以将vnode渲染成真实的DOM，这个过程是对比新旧虚拟节点之间有哪些不同，然后根据对比结果找出需要更新的的节点进行更新。这点我们从单词含义就可以看出， patch本身就有补丁、修补的意思，其实际作用是在现有DOM上进行修改来实现更新视图的目的。Vue的Virtual DOM Patching算法是基于Snabbdom的实现，并在些基础上作了很多的调整和改进。
+
+Virtual DOM 其实就是一棵以 JavaScript 对象( VNode 节点)作为基础的树，用对象属性来描述节点，实际上它只是一层对真实 DOM 的抽象。最终可以通过一系列操作使这棵树映射到真实环境上。
+简单来说，可以把Virtual DOM 理解为一个简单的JS对象，并且最少包含标签名( tag)、属性(attrs)和子元素对象( children)三个属性。不同的框架对这三个属性的命名会有点差别。
+对于虚拟DOM，咱们来看一个简单的实例，就是下图所示的这个，详细的阐述了模板 → 渲染函数 → 虚拟DOM树 → 真实DOM的一个过程
+![Alt text](image-4.png)
+
+**Virtual Dom作用**
+虚拟DOM的最终目标是将虚拟节点渲染到视图上。但是如果直接使用虚拟节点覆盖旧节点的话，会有很多不必要的DOM操作。例如，一个ul标签下很多个li标签，其中只有一个li有变化，这种情况下如果使用新的ul去替代旧的ul,因为这些不必要的DOM操作而造成了性能上的浪费。
+
+为了避免不必要的DOM操作，虚拟DOM在虚拟节点映射到视图的过程中，将虚拟节点与上一次渲染视图所使用的旧虚拟节点（oldVnode）做对比，找出真正需要更新的节点来进行DOM操作，从而避免操作其他无需改动的DOM。
+虚拟DOM在vue主要做两件事
+- 提供与真实DOM节点所对应的虚拟节点vnode
+- 将虚拟节点vnode和旧虚拟节点oldVnode进行对比，然后更新视图
+
+
+**为何需要Virtual Dom**
+- 具备跨平台优势，由于 Virtual DOM 是以 JavaScript 对象为基础而不依赖真实平台环境，所以使它具有了跨平台的能力，比如说浏览器平台、Weex、Node 等。
+- 操作 DOM 慢，js运行效率高。我们可以将DOM对比操作放在JS层，提高效率。因为DOM操作的执行速度远不如Javascript的运算速度快，因此，把大量的DOM操作搬运到Javascript中，运用patching算法来计算出真正需要更新的节点，最大限度地减少DOM操作，从而显著提高性能。
+- 提升渲染性能。Virtual DOM的优势不在于单次的操作，而是在大量、频繁的数据更新下，能够对视图进行合理、高效的更新。为了实现高效的DOM操作，一套高效的虚拟DOM diff算法显得很有必要。我们通过patch 的核心----diff 算法，找出本次DOM需要更新的节点来更新，其他的不更新。比如修改某个model 100次，从1加到100，那么有了Virtual DOM的缓存之后，只会把最后一次修改patch到view上。
+
+**diff算法**
+
+
+
+# vue2和vue3生命周期
+| vue2          | vue3            |
+| ------------- | --------------- |
+| beforeCreate  | setup           |
+| created       | setup           |
+| beforeMount   | onBeforeMount   |
+| mounted       | onMounted       |
+| beforeUpdate  | onbeforeUpdate  |
+| updated       | onUpdated       |
+| beforeDestroy | onBeforeUnmount |
+| destroyed     | onUnmounted     |
+
+vue3生命周期图
+![Alt text](image-5.png)
+
+vue中生命周期函数执行
+- **beforeCreate：**实例刚被创建出来，并没有初始化好data和methods，也就是说无法进行数据和方法的使用
+- **created：**已经进行data数据和methods方法的初始化，但是此时没有进行编译模板。也就是说此时是最早可以操作data和methods的时候。
+- **beforeMount：**在created()和beforeMount()之间，已经进行了data数据的渲染,生成了html（此时还是在内存中并没有渲染到真实的页面上。无法在页面看到）在执行到beforeMount()时，挂载开始之前被调用，相关的render函数首次被调用（虚拟DOM），实例已完成以下的配置： 编译模板，把data里面的数据和模板生成html，完成了el和data 初始化。没有挂载到浏览器。注意此时还没有挂载到真实的页面上，此时还是不能在浏览器看到真实的数据。
+- **mounted：**已经将编译好的模板挂载到浏览器，此时可以看到真实的数据。
+- **beforeUpdata：**此函数在修改数据之前触发，发生在虚拟DOM重新渲染和打补丁之前，可以在该钩子中进一步地更改状态，不会触发附加地重渲染过程。此时data中的数据已经是新的，但是界面上的data数据是旧的。
+- **updated：**此函数在修改数据之后触发，此时界面上的数据变成最新修改的值。在由于数据更改导致地虚拟DOM重新渲染和打补丁时调用，调用时，组件DOM已经更新，所以可以执行依赖于DOM的操作，然后在大多是情况下，应该避免在此期间更改状态，因为这可能会导致更新无限循环，该钩子在服务器端渲染期间不被调用
+- **beforeUnmount：**此函数在销毁实例之前触发，在这个函数中，在这一步，实例仍然完全可用。我们可以做一些操作。比如：一般在这一步做一些重置的操作，比如清除掉组件中的定时器 和 监听的dom事件
+- **Unmounted：**在实例销毁之后调用，调用后，所以的事件监听器会被移出，所有的子实例也会被销毁，该钩子在服务器端渲染期间不被调用.data和methods进行解绑。
+
