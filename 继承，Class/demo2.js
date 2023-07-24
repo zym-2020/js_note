@@ -47,5 +47,7 @@ f.operateName = "王二";
 console.log(f.operateName);
 Father.printName();
 c.age = 100;
+console.log(c.operateName)
 c.getInfo();
 Child.printAge();
+console.log(c.operateName)
