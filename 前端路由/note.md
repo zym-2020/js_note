@@ -28,6 +28,7 @@ history 模式会比 hash 模式稍麻烦一些，因为 history 模式依赖的
 > pushState 和 replaceState 都是 HTML5 的新 API，他们的作用很强大，可以做到改变浏览器地址却不刷新页面。这是实现改变地址栏却不刷新页面的重要方法。
 
 包括 a 标签的点击事件也是不会被 popstate 监听。我们需要想个办法解决这个问题，才能实现 history 模式。
+
 **解决思路：**我们可以通过遍历页面上的所有 a 标签，阻止 a 标签的默认事件的同时，加上点击事件的回调函数，在回调函数内获取 a 标签的 href 属性值，再通过 pushState 去改变浏览器的 location.pathname 属性值。然后手动执行 popstate 事件的回调函数，去匹配相应的路由。
 代码见demo2
 
