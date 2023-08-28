@@ -11,7 +11,7 @@ Object.prototype.toString.call(function(){}) // "[object Function]"
 Object.prototype.toString.call({name: 'An'}) // "[object Object]"
 ```
 
-bject.prototype.toString.call() 常用于判断浏览器内置对象时
+object.prototype.toString.call() 常用于判断浏览器内置对象时
 这里有个有意思的点，当数组直接调用toString()与调用Object.prototype.toString.call()时不一样，并不能理解为通过call改变了this的指向，而是改变了调用的方法，因为数组也继承Object对象，并有重写toString方法，见demo1
 
 
