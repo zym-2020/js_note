@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BroadCast</title>
+  </head>
+  <body>
+    <button id="btn">按钮</button>
+  </body>
+  <script>
+    const bc = new BroadcastChannel("zym");
+    bc.onmessage = (e) => {
+      console.log(e);
+    };
+    document.getElementById("btn").addEventListener("click", () => {
+      bc.postMessage("haha");
+    });
+  </script>
+</html>
+<!-- BroadCast Channel通信案例，用onmessage 监听广播信息，postMessage发送广播信息 -->

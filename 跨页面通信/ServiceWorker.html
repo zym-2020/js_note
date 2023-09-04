@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiceWorker</title>
+  </head>
+  <body>
+    <button id="btn">按钮</button>
+  </body>
+  <script>
+    navigator.serviceWorker.register("./utils/util.sw.js").then(() => {
+      console.log("Service Worker 注册成功");
+    });
+    navigator.serviceWorker.addEventListener("message", (e) => {
+      console.log("收到worker消息", e.data);
+    });
+
+    document.getElementById("btn").addEventListener("click", () => {
+      navigator.serviceWorker.ready
+        .then(function (serviceWorkerRegistration) {
+          console.log(serviceWorkerRegistration);
+          // Let's see if you have a subscription already
+          return serviceWorkerRegistration.pushManager.getSubscription();
+        })
+        .then(function (subscription) {
+          console.log(subscription);
+          if (!subscription) {
+            // You do not have subscription
+          }
+          // You have subscription.
+          // Send data to service worker
+
+          navigator.serviceWorker.controller.postMessage("hahah");
+        });
+    });
+  </script>
+</html>

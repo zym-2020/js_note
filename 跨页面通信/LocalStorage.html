@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">按钮</button>
+  </body>
+
+  <script>
+    window.addEventListener("storage", (e) => {
+      if (e.key === "zym") {
+        console.log(e.newValue, e.oldValue);
+      }
+    });
+
+    document.getElementById("btn").addEventListener("click", (e) => {
+      localStorage.setItem("zym", "zymm");
+    });
+  </script>
+</html>
