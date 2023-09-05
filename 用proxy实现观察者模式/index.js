@@ -5,7 +5,7 @@ const observable = (obj) =>
     set: (target, key, value) => {
       Reflect.set(target, key, value);
       queue.forEach((item) => {
-        item();
+        item.call(target)
       });
     },
   });
