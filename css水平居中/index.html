@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* text-align居中，将display设置为inline-block */
+      .container1 {
+        background: red;
+        text-align: center;
+      }
+      .box1 {
+        background: white;
+        width: 500px;
+        height: 400px;
+        display: inline-block;
+      }
+
+      /* 设置margin实现 */
+      .container2 {
+        background: red;
+      }
+      .box2 {
+        background: white;
+        width: 500px;
+        height: 400px;
+        margin: 0 auto;
+      }
+      .container3 {
+        background: red;
+        position: relative;
+        height: 300px;
+      }
+      .box3 {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        left: calc(50% - 150px);
+        /* margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0; */
+        background-color: pink; /*方便看效果*/
+      }
+
+      .container4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+        background: red;
+      }
+      .box4 {
+        width: 300px;
+        height: 300px;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container1">
+      <div class="box1">box1</div>
+    </div>
+    <div class="container2">
+      <div class="box2">box2</div>
+    </div>
+    <div class="container3">
+      <div class="box3">box3</div>
+    </div>
+    <div class="container4">
+      <div class="box4">box4</div>
+    </div>
+  </body>
+</html>
